@@ -1,6 +1,6 @@
 from dash import Dash, html, Input, Output, State
 import dash_bootstrap_components as dbc
-from utilities import LLM
+from utilities import LLM, PersonalityComparison
 from dash import dcc
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.COSMO], suppress_callback_exceptions=True)
@@ -143,7 +143,60 @@ homepage_layout = html.Div(
                     ]
                 )
             ])
-        ])
+        ]),
+        html.Div(style = {"margin": "50px"},
+            children = [
+                html.H4("Find your bestie"),
+                html.A("Take this test to find which of us you are most similar to", href="https://bigfive-test.com/"),
+                dbc.Row(
+                    children = [
+                        dbc.Col(width = 3,
+                            children = [
+                                dbc.Input(id="neuroticism-input", type="number", placeholder="Enter neuroticism score")
+                            ]
+                        )
+                    ]
+                ),
+                dbc.Row(
+                    children = [
+                        dbc.Col(width = 3,
+                            children = [
+                                dbc.Input(id="extraversion-input", type="number", placeholder="Enter extraversion score")
+                            ]
+                        )
+                    ]
+                ),
+                dbc.Row(
+                    children = [
+                        dbc.Col(width = 3,
+                            children = [
+                                dbc.Input(id="openness-input", type="number", placeholder="Enter openness score")
+                            ]
+                        )
+                    ]
+                ),
+                dbc.Row(
+                    children = [
+                        dbc.Col(width = 3,
+                            children = [
+                                dbc.Input(id="agreeableness-input", type="number", placeholder="Enter agreeableness score")
+                            ]
+                        )
+                    ]
+                ),
+                dbc.Row(
+                    children = [
+                        dbc.Col(width = 3,
+                            children = [
+                                dbc.Input(id="conscientiousness-input", type="number", placeholder="Enter conscientiousness score")
+                            ]
+                        )
+                    ]
+                ),
+                dbc.Button("Find your bestie", id="find-button", n_clicks=0, color="primary", style={"marginTop": "20px"}),
+                html.Div(id="bestie-result")
+            ]
+        )
     ]
 )
 
@@ -204,6 +257,21 @@ def update_search_results(n_clicks, search_query):
         # You can add logic to fetch and display search results based on the query
         return f'Displaying search results for: {search_query}'
     return 'No search results.'
+
+@app.callback(
+    Output('bestie-result', 'children'),
+    Input('find-button', 'n_clicks'),
+    State('neuroticism-input', 'value'),
+    State('extraversion-input', 'value'),
+    State('openness-input', 'value'),
+    State('agreeableness-input', 'value'),
+    State('conscientiousness-input', 'value'),
+)
+def find_bestie(n_clicks, neuroticism, extraversion, openness, agreeableness, conscientiousness):
+    if n_clicks > 0:
+        bestie = PersonalityComparison(1).find_nearest_neighbors([neuroticism, extraversion, openness, agreeableness, conscientiousness])
+        return html.H3(bestie)
+    return ''
 
 if __name__ == "__main__":
     app.run_server(host="0.0.0.0", port=8050, debug=True)
