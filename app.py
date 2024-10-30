@@ -33,7 +33,7 @@ navbar = dbc.Navbar(
                             dbc.Row(
                                 [
                                     dbc.Col(html.Img(src="assets/451420850_6680095385448679_336018023308555072_n.jpg", height="30px")),
-                                    dbc.Col(dbc.NavbarBrand("Try out the search bar!", className="ms-2")),
+                                    dbc.Col(dbc.NavbarBrand("hey", className="ms-2")),
                                 ],
                                 align="center",
                                 className="g-0",
@@ -42,13 +42,7 @@ navbar = dbc.Navbar(
                             style={"textDecoration": "none"},
                         ),
                         width="auto",
-                    ),
-                    dbc.Col(width=True),  # This empty column will push the search bar to the right
-                    dbc.Col(
-                        search_bar,
-                        width=True,
-                        style={"marginRight": "100px"},  # Add right margin
-                    ),
+                    )
                 ],
                 align="center",
                 className="g-0 w-100",
