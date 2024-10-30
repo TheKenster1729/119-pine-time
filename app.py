@@ -214,7 +214,7 @@ homepage_layout = html.Div(
                         html.H4("adventuring"),
                         picture_carousel
                     ],
-                    width = 4
+                    width = 6
                 )
                     
             ]
