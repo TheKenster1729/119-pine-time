@@ -1,6 +1,6 @@
 from dash import Dash, html, Input, Output, State
 import dash_bootstrap_components as dbc
-from utilities import LLM, PersonalityComparison
+from utilities import PersonalityComparison
 from dash import dcc
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.COSMO], suppress_callback_exceptions=True)
@@ -283,59 +283,6 @@ app.layout = html.Div([
     dcc.Location(id="url", refresh=False),
     html.Div(id="page-content")
 ])
-
-# Results page layout
-def results_layout(search_query):
-    response = LLM("EleutherAI/gpt-neo-125m").generate(search_query)
-    return html.Div([
-        html.H2('Search Results'),
-        dcc.Input(id='search-bar-results', type='text', value=search_query, placeholder='Enter a new search query...'),
-        html.Button('Search', id='search-button-results', n_clicks=0),
-        html.Div(f'Search Results for: {search_query}'),
-        # Display search results here (this can be populated with dynamic data)
-        html.Div(id='search-results-content', children = [
-            html.Div(children = [
-                html.P(response)
-            ])
-        ])
-    ])
-
-# Callback to control the page content
-@app.callback(Output('page-content', 'children'),
-              Input('url', 'pathname'),
-              Input('url', 'search'))
-def display_page(pathname, search):
-    if pathname == '/results':
-        search_query = search.split('=')[1] if search else ''
-        return results_layout(search_query)
-    else:
-        return homepage_layout
-
-# Callback to handle the search button click on the homepage
-@app.callback(
-    Output('url', 'pathname'),
-    Output('url', 'search'),
-    Input('ask-button', 'n_clicks'),
-    State('ask-input', 'value'),
-    prevent_initial_call=True
-)
-def redirect_to_results(n_clicks, search_query):
-    if n_clicks > 0 and search_query:
-        return '/results', f'?query={search_query}'
-    return '/', ''  # If there's no valid search query, return to the homepage
-
-# Callback to handle the search button click on the results page
-@app.callback(
-    Output('search-results-content', 'children'),
-    Input('search-button-results', 'n_clicks'),
-    State('search-bar-results', 'value'),
-    prevent_initial_call=True
-)
-def update_search_results(n_clicks, search_query):
-    if n_clicks > 0 and search_query:
-        # You can add logic to fetch and display search results based on the query
-        return f'Displaying search results for: {search_query}'
-    return 'No search results.'
 
 @app.callback(
     Output('bestie-result', 'children'),
