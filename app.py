@@ -103,6 +103,24 @@ picture_carousel = dbc.Carousel(
             "src": "static/462539491_1251023609433769_6766252311625364834_n.jpg",
             "caption": "10/24/24 \"For two seconds I thought he was dead\"",
             "captionClassName": "custom-caption"
+        },
+        {
+            "key": "8",
+            "src": "static/451420850_6680095385448679_336018023308555072_n.jpg",
+            "caption": "7/23/24 \"This is a pretty significant cultural representation for Oklahoma\"",
+            "captionClassName": "custom-caption"
+        },
+        {
+            "key": "9",
+            "src": "static/e0470955-7233-4106-9a43-7221fda68b45.jpeg",
+            "caption": "5/17/24 🤓",
+            "captionClassName": "custom-caption"
+        },
+        {
+            "key": "10",
+            "src": "static/394235035_844388500670304_7945824688703275233_n.jpg",
+            "caption": "10/19/23 Homeless man off his meds celebrates The Eras Tour, 2023 colorized",
+            "captionClassName": "custom-caption"
         }
     ],
     interval = 10000
